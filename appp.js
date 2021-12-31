@@ -12,7 +12,7 @@ document.getElementById("btn").onclick = () => {
     userName = document.getElementById("userName").value
     password = document.getElementById("password").value
     fetch('./userInfo.json').then((res) =>{res.json().then((usernInfo) =>{
-     
+        fetch('./data.json').then((res) => {res.json().then((result) =>{
         usernInfo.forEach(x => {
             if(x.userName == userName && x.password == password){
                 document.getElementById("dashboard").style.display = "block"
@@ -40,7 +40,7 @@ document.getElementById("btn").onclick = () => {
                     sci = document.getElementById("science").value
                     hindi = document.getElementById("hindi").value
     
-                    add(name1,id,eng,math,sci,hindi)
+                    add(result,name1,id,eng,math,sci,hindi)
                 }
             
             
@@ -58,7 +58,7 @@ document.getElementById("btn").onclick = () => {
             document.getElementById("container").style.display = "none"
             document.getElementById("marks").style.display = "none"
         
-            callData()
+            callData(result)
         }
 
 
@@ -68,36 +68,35 @@ document.getElementById("btn").onclick = () => {
 
 
 
+    })})
 
 
-        })})
+    })})
 }
 
 
-function callData(){
+function callData(data){
     let table =`<tr><th>Name</th><th>ID</th><th>English</th><th>Mathematics</th><th>Science</th><th>Hindi</th></tr>`
-    fetch('./data.json').then((res) => {res.json().then((result) =>{
-        console.log(result)
-        result.forEach(element => {
+   
+        console.log(data)
+        data.forEach(element => {
             table+=`<tr><td>${element.name}</td><td>${element.id}</td><td>${element.marks.english}</td><td>${element.marks.math}</td><td>${element.marks.science}</td><td>${element.marks.hindi}</td></tr>`
             
         });
-        
+        console.log(data)
     document.getElementById("tableData").innerHTML = table
 
-            })})
-
+           
 }
 
-function add(name,id,eng,math,sci,hindi) {
+function add(data,name,id,eng,math,sci,hindi) {
     let table =`<tr><th>Name</th><th>ID</th><th>English</th><th>Mathematics</th><th>Science</th><th>Hindi</th></tr>`
-    fetch('./data.json').then((res) => {res.json().then((result) =>{
         
         let obj = {name:name,id:id,marks:{english:eng,math:math,hindi:hindi,science:sci}}
-        result.push(obj)
+        data.push(obj)
 
 
-        result.forEach(element => {
+        data.forEach(element => {
             table+=`<tr><td>${element.name}</td><td>${element.id}</td><td>${element.marks.english}</td><td>${element.marks.math}</td><td>${element.marks.science}</td><td>${element.marks.hindi}</td></tr>`
             
         });
@@ -105,8 +104,8 @@ function add(name,id,eng,math,sci,hindi) {
     document.getElementById("container").style.display = "none"
     document.getElementById("marks").style.display = "none"
     document.getElementById("tableData").innerHTML = table
-        console.log(result)
-            })})
+        console.log(data)
+         
 }
 
 
